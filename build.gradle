@@ -1,4 +1,5 @@
 plugins {
+    id("groovy")
     id("com.github.johnrengelman.shadow") version "7.1.2"
     id("io.micronaut.application") version "3.6.2"
 }
@@ -10,6 +11,15 @@ repositories {
     mavenCentral()
 }
 
+micronaut {
+    runtime("netty")
+    testRuntime("spock2")
+    processing {
+        incremental(true)
+        annotations("codes.recursive.*")
+    }
+}
+
 dependencies {
     annotationProcessor("io.micronaut:micronaut-http-validation")
     implementation("io.micronaut:micronaut-http-client")
@@ -17,6 +27,7 @@ dependencies {
     implementation("jakarta.annotation:jakarta.annotation-api")
     runtimeOnly("ch.qos.logback:logback-classic")
     implementation("io.micronaut:micronaut-validation")
+    testImplementation("io.micronaut:micronaut-http-client")
 
 }
 
@@ -30,14 +41,6 @@ java {
 }
 
 graalvmNative.toolchainDetection = false
-micronaut {
-    runtime("netty")
-    testRuntime("junit5")
-    processing {
-        incremental(true)
-        annotations("codes.recursive.*")
-    }
-}
 
 
 
